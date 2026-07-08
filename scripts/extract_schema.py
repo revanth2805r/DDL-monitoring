@@ -4,10 +4,6 @@ import psycopg2
 from pathlib import Path
 from datetime import datetime
 
-# ---------------------------------------
-# Output Directory
-# ---------------------------------------
-
 OUTPUT_DIR = Path("schema_snapshots")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
@@ -20,47 +16,12 @@ if LATEST_FILE.exists():
         PREVIOUS_FILE.unlink()
     LATEST_FILE.rename(PREVIOUS_FILE)
 
-# ---------------------------------------
-# Read Database Configuration
-# ---------------------------------------
-
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-
-required = {
-    "DB_HOST": DB_HOST,
-    "DB_PORT": DB_PORT,
-    "DB_NAME": DB_NAME,
-    "DB_USER": DB_USER,
-    "DB_PASSWORD": DB_PASSWORD,
-}
-
-missing = [key for key, value in required.items() if not value]
-
-if missing:
-    raise ValueError(
-        f"Missing required environment variables: {', '.join(missing)}"
-    )
-
-print("Connecting to PostgreSQL...")
-print(f"Host     : {DB_HOST}")
-print(f"Port     : {DB_PORT}")
-print(f"Database : {DB_NAME}")
-print(f"User     : {DB_USER}")
-
-# ---------------------------------------
-# Connect to PostgreSQL
-# ---------------------------------------
-
 conn = psycopg2.connect(
-    host=DB_HOST,
-    port=DB_PORT,
-    dbname=DB_NAME,
-    user=DB_USER,
-    password=DB_PASSWORD,
+    host="heroku-uat.hsaws.net",
+    port="5432",
+    dbname="d7h2t6u5aslurn",
+    user="u32jdsd4gp7idc",
+    password="pfa2881d32fc872e9d0f32dd7bafc4f988eba8223dc28d1ac6ae6556862bdc132",
 )
 
 cur = conn.cursor()
@@ -92,7 +53,7 @@ is_nullable,
 column_default
 FROM information_schema.columns
 WHERE table_schema NOT IN ('pg_catalog','information_schema')
-ORDER BY table_schema, table_name, ordinal_position;
+ORDER BY table_schema,table_name,ordinal_position;
 """)
 
 for row in cur.fetchall():
@@ -116,7 +77,7 @@ for row in cur.fetchall():
         {
             "columns": [],
             "constraints": []
-        }
+        },
     )
 
     schema["tables"][key]["columns"].append(
@@ -144,11 +105,11 @@ tc.constraint_type,
 kcu.column_name
 FROM information_schema.table_constraints tc
 LEFT JOIN information_schema.key_column_usage kcu
-ON tc.constraint_name = kcu.constraint_name
-AND tc.table_schema = kcu.table_schema
+ON tc.constraint_name=kcu.constraint_name
+AND tc.table_schema=kcu.table_schema
 WHERE tc.table_schema NOT IN
 ('pg_catalog','information_schema')
-ORDER BY tc.table_schema, tc.table_name;
+ORDER BY tc.table_schema,tc.table_name;
 """)
 
 for row in cur.fetchall():
@@ -220,7 +181,7 @@ p.proname,
 pg_get_functiondef(p.oid)
 FROM pg_proc p
 JOIN pg_namespace n
-ON n.oid = p.pronamespace
+ON n.oid=p.pronamespace
 WHERE n.nspname NOT IN
 ('pg_catalog','information_schema');
 """)
@@ -259,4 +220,4 @@ conn.close()
 with open(LATEST_FILE, "w") as f:
     json.dump(schema, f, indent=4)
 
-print(f"Schema snapshot created successfully: {LATEST_FILE}")
+print("Schema snapshot created.")
