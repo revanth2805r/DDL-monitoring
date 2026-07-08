@@ -1,0 +1,32 @@
+name: Test Local PostgreSQL Connection
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test-postgres:
+    runs-on: self-hosted
+
+    steps:
+      - name: Check PostgreSQL Port
+        run: |
+          nc -vz localhost 5432
+
+      - name: Install PostgreSQL Client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Test PostgreSQL Connection
+        env:
+          PGPASSWORD: root@123
+        run: |
+          psql \
+            -h localhost \
+            -p 5432 \
+            -U postgres \
+            -d postgres \
+            -c "SELECT version();"
