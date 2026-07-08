@@ -17,7 +17,7 @@ if LATEST_FILE.exists():
     LATEST_FILE.rename(PREVIOUS_FILE)
 
 conn = psycopg2.connect(
-    host="heroku-uat.hsaws.net",
+    host="ec2-100-48-26-140.compute-1.amazonaws.com",
     port="5432",
     dbname="d7h2t6u5aslurn",
     user="u32jdsd4gp7idc",
