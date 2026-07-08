@@ -17,7 +17,7 @@ if LATEST_FILE.exists():
     LATEST_FILE.rename(PREVIOUS_FILE)
 
 conn = psycopg2.connect(
-    host="ec2-100-48-26-140.compute-1.amazonaws.com",
+    host="vpce-00a966608ff84c00c-sl9x9cu8-us-east-1b.vpce-svc-06907bfee3615b989.us-east-1.vpce.amazonaws.com",
     port="5432",
     dbname="d7h2t6u5aslurn",
     user="u32jdsd4gp7idc",
