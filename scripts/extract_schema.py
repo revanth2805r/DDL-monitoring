@@ -17,11 +17,11 @@ if LATEST_FILE.exists():
     LATEST_FILE.rename(PREVIOUS_FILE)
 
 conn = psycopg2.connect(
-    host="vpce-00a966608ff84c00c-sl9x9cu8-us-east-1b.vpce-svc-06907bfee3615b989.us-east-1.vpce.amazonaws.com",
+    host="****",
     port="5432",
     dbname="d7h2t6u5aslurn",
     user="u32jdsd4gp7idc",
-    password="pfa2881d32fc872e9d0f32dd7bafc4f988eba8223dc28d1ac6ae6556862bdc132",
+    password="****"
 )
 
 cur = conn.cursor()
