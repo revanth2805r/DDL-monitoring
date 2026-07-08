@@ -33,7 +33,7 @@ jobs:
 
       - name: Test PostgreSQL port
         run: |
-          nc -vz ec2-100-48-26-140.compute-1.amazonaws.com 5432
+          vpce-00a966608ff84c00c-sl9x9cu8-us-east-1b.vpce-svc-06907bfee3615b989.us-east-1.vpce.amazonaws.com
 
       - name: Run Schema Extraction
         run: |
