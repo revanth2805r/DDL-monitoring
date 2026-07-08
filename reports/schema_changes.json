@@ -1,0 +1,17 @@
+{
+    "tables_added": [
+        "hs_hqs_temp.temp_test1"
+    ],
+    "tables_removed": [],
+    "columns_added": [],
+    "columns_removed": [],
+    "columns_modified": [],
+    "indexes_added": [],
+    "indexes_removed": [],
+    "views_added": [],
+    "views_removed": [],
+    "functions_added": [],
+    "functions_removed": [],
+    "triggers_added": [],
+    "triggers_removed": []
+}

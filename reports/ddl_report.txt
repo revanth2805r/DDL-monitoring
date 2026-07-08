@@ -1,0 +1,42 @@
+SCHEMA DRIFT REPORT
+============================================================
+Generated : 2026-07-07 17:30:22.689019
+
+Added Tables
+  + hs_hqs_temp.temp_test1
+
+Removed Tables
+  None
+
+Added Columns
+  None
+
+Removed Columns
+  None
+
+Modified Columns
+  None
+
+Added Indexes
+  None
+
+Removed Indexes
+  None
+
+Added Views
+  None
+
+Removed Views
+  None
+
+Added Functions
+  None
+
+Removed Functions
+  None
+
+Added Triggers
+  None
+
+Removed Triggers
+  None
