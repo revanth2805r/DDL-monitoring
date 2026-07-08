@@ -31,9 +31,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install psycopg2
 
-      - name: Test DB Host
+      - name: Test PostgreSQL port
         run: |
-          nslookup ec2-100-48-26-140.compute-1.amazonaws.com
+          nc -vz ec2-100-48-26-140.compute-1.amazonaws.com 5432
 
       - name: Run Schema Extraction
         run: |
