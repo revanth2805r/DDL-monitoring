@@ -33,7 +33,7 @@ jobs:
 
       - name: Test DB Host
         run: |
-          nslookup heroku-uat.hsaws.net
+          nslookup ec2-100-48-26-140.compute-1.amazonaws.com
 
       - name: Run Schema Extraction
         run: |
