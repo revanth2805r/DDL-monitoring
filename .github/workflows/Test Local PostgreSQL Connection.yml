@@ -8,18 +8,16 @@ on:
 
 jobs:
   test-postgres:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Check PostgreSQL Port
         run: |
           nc -vz localhost 5432
-
       - name: Install PostgreSQL Client
         run: |
           sudo apt-get update
           sudo apt-get install -y postgresql-client
-
       - name: Test PostgreSQL Connection
         env:
           PGPASSWORD: root@123
