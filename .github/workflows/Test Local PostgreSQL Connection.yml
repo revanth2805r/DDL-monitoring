@@ -1,30 +1,61 @@
-name: Test Local PostgreSQL Connection
+name: Test PostgreSQL Connection
 
 on:
   push:
     branches:
       - main
+  pull_request:
   workflow_dispatch:
 
 jobs:
   test-postgres:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: root@123
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
 
     steps:
-      - name: Check PostgreSQL Port
+      - name: Check PostgreSQL Readiness
         run: |
-          nc -vz localhost 5432
+          pg_isready -h 127.0.0.1 -p 5432 -U postgres
+
       - name: Install PostgreSQL Client
         run: |
           sudo apt-get update
           sudo apt-get install -y postgresql-client
+
       - name: Test PostgreSQL Connection
         env:
           PGPASSWORD: root@123
         run: |
           psql \
-            -h localhost \
+            -h 127.0.0.1 \
             -p 5432 \
             -U postgres \
             -d postgres \
+            -v ON_ERROR_STOP=1 \
             -c "SELECT version();"
+
+      - name: Verify Database Query
+        env:
+          PGPASSWORD: root@123
+        run: |
+          psql \
+            -h 127.0.0.1 \
+            -p 5432 \
+            -U postgres \
+            -d postgres \
+            -v ON_ERROR_STOP=1 \
+            -c "SELECT current_database(), current_user;"
