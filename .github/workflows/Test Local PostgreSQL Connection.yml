@@ -1,3 +1,4 @@
+
 name: Test PostgreSQL Connection
 
 on:
@@ -27,14 +28,14 @@ jobs:
           --health-retries 10
 
     steps:
-      - name: Check PostgreSQL Readiness
-        run: |
-          pg_isready -h 127.0.0.1 -p 5432 -U postgres
-
       - name: Install PostgreSQL Client
         run: |
           sudo apt-get update
           sudo apt-get install -y postgresql-client
+
+      - name: Check PostgreSQL Readiness
+        run: |
+          pg_isready -h 127.0.0.1 -p 5432 -U postgres
 
       - name: Test PostgreSQL Connection
         env:
@@ -46,7 +47,7 @@ jobs:
             -U postgres \
             -d postgres \
             -v ON_ERROR_STOP=1 \
-            -c "SELECT version();"
+            -c "SELECT 'Connection Successful' AS status;"
 
       - name: Verify Database Query
         env:
@@ -58,4 +59,4 @@ jobs:
             -U postgres \
             -d postgres \
             -v ON_ERROR_STOP=1 \
-            -c "SELECT current_database(), current_user;"
+            -c "SELECT current_database(), current_user, version();"
